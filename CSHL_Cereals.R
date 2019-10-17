@@ -62,6 +62,12 @@ ggplot(gatherData, aes(x = treatment, y = Value)) +
 # Data Quality ------------------------------------------------------------
 
 # Histograms
+gia25 <- na.omit(subset(gia, treatment == 25)[ ,"Network.Area"])
+hist(gia25, main = "Network Area") # Try for one trait
+
+# When plotting multiple distributions in same plot, density curves are easier to see
+plot(density(gia25), main = "Network Area, 25%")
+
 # Use a loop to make a density plot of every trait
 par(mfrow = c(3,3)) # Make 3x3 plots per page
 for (i in dataCols){
@@ -210,7 +216,7 @@ VarComp$Trait <- factor(VarComp$Trait, rev(levels(VarComp$Trait)))
 ggplot(VarComp, aes(x = Trait, y = heritability)) +
   geom_bar(stat = "identity", color = "black", aes(fill = heritability)) + ylim(0,1) +
   labs(x = "", y = "\nBroad-Sense Heritability") + guides(fill = FALSE) +
-  scale_fill_viridis(option = "magma") + coord_flip()
+  scale_fill_viridis(option = "magma") + coord_flip() + theme_classic()
 
 # Analysis of Variance for factor significance
 # Make empty data frame
@@ -328,7 +334,5 @@ library(gplots)
 heatmap.2(t(areaTable), Rowv = FALSE, dendrogram = "column",
           margins = c(5, 7), trace = "none", col = "cm.colors", 
           main = "Network Area")
-
-
 
 
